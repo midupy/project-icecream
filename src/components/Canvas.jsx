@@ -6,7 +6,7 @@ import useImage from "use-image";
 
 // Components
 import CustomImage from "./CustomImage";
-import CustomText from './CustomText';
+import CustomText from "./CustomText";
 import { FramesContext, useFrames } from "../store/contexts/frames.context";
 
 // Utils
@@ -14,7 +14,9 @@ import { CONTROLLER_ACTIONS } from "../store/actions/controller.action";
 import { CANVAS_ACTIONS } from "../store/actions/frames.action";
 
 const Canvas = () => {
-  const [frame1] = useImage("https://res.cloudinary.com/riteshp2000/image/upload/v1641915566/frame3_u9zm5x.png");
+  const [frame1] = useImage(
+    "https://homologacao.fqmgrupo.com.br/bancodeimagens/images/figbaseprint.png"
+  );
   const [state, dispatch] = useFrames();
 
   /**
@@ -44,22 +46,22 @@ const Canvas = () => {
     if (selectedElement === id) {
       setSelectedElement(null);
     } else {
-      setSelectedElement(id)
+      setSelectedElement(id);
     }
-  }
+  };
 
   useEffect(() => {
     if (stageRef) {
       dispatch({
         type: CANVAS_ACTIONS.UPDATE_STAGE_REF,
-        payload: stageRef
-      })
+        payload: stageRef,
+      });
     }
-  }, [stageRef, dispatch])
+  }, [stageRef, dispatch]);
 
   return (
     <FramesContext.Consumer>
-      {value => (
+      {(value) => (
         <Stage
           ref={stageRef}
           width={stageDetails.width}
@@ -75,45 +77,13 @@ const Canvas = () => {
                 />
               )}
 
-              <CustomText
-                dimensions={textDetails.name.dimensions}
-                position={textDetails.name.position}
-                name={textDetails.name.value}
-                isSelected={selectedElement === textDetails.name.id}
-                onSelect={() => onSelect(textDetails.name.id)}
-                onTransformEnd={(payload) => dispatch({
-                  action: CONTROLLER_ACTIONS.UPDATE_NAME_SCALE,
-                  payload,
-                })}
-                onDragEnd={(payload) => dispatch({
-                  action: CONTROLLER_ACTIONS.UPDATE_NAME_POSITIONS,
-                  payload,
-                })}
-              />
-
-              <CustomText
-                dimensions={textDetails.guild.dimensions}
-                position={textDetails.guild.position}
-                name={textDetails.guild.value}
-                isSelected={selectedElement === textDetails.guild.id}
-                onSelect={() => onSelect(textDetails.guild.id)}
-                onTransformEnd={(payload) => dispatch({
-                  action: CONTROLLER_ACTIONS.UPDATE_GUILD_SCALE,
-                  payload,
-                })}
-                onDragEnd={(payload) => dispatch({
-                  action: CONTROLLER_ACTIONS.UPDATE_GUILD_POSITIONS,
-                  payload,
-                })}
-              />
-
               <Image
                 image={frame1}
                 width={stageDetails.width}
                 height={stageDetails.height}
                 x={0}
                 y={0}
-                style={{ position: "absolute", top: 0, left: 0, zIndex: 100 }}
+                style={{ position: "absolute", top: 0, left: 0, zIndex: -1 }}
                 listening={false}
                 onSelect={() => onSelect(null)}
               />
